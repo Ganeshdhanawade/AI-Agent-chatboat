@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile.fastapi
+    ports:
+      - "8000:8000"
+    environment:
+      - TAVILY_API_KEY=${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}
+      - GROQ_API_KEY=${gsk_H079hpQs653aOnDGGxN5WGdyb3FYmtd7mUnuHykw4zovxV58mzW}
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    ports:
+      - "8501:8501"
+    depends_on:
+      - fastapi
+    environment:
+      - API_URL=http://fastapi:8000/chat
